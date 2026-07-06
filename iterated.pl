@@ -2,11 +2,14 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    File name iterated.pl
    Iterated functions simulation in prolog
-   
+
+   license https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
+   pascaldagornet at yahoo.de
+
    1. first install swi-prolog 
    2. in a terminal, "swipl iterated.pl"
    3. welcome message give you some information
-   4. start eclipse with PDT.. or other since it dont work anymore..
+   4. for editing, start eclipse with PDT.. or use emacs..
    5. start emacs editors in a terminal with 
         env HOME=/home/pascal/ellipse_perimeter emacs iterated.pl
         it has several other files in /home/pascal/ellipse_perimeter..
@@ -15,8 +18,9 @@
         - etrace.el
         - prolog.el
    
-   It show the values of typical iterated infinite functions 
+   It show the values of several functions with focus on iterated functions 
      f(f(f(..))) with high convergence between 2 poles
+     aka collapsing boundaries
 
    No infinite series (with sometimes unknown outcome) listed
    
@@ -41,6 +45,7 @@
    Lambert  https://www.uwo.ca/apmaths/faculty/jeffrey/pdfs/W-adv-cm.pdf
    e as convergence of means  http://numbers.computation.free.fr/Constants/E/e.html
    implement  https://en.m.wikipedia.org/wiki/Borwein%27s_algorithm
+   etc.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 % 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1463,14 +1468,19 @@ eper143(A,B,Res) :-
 %
 % https://semjonadlaj.com/Excerpts/QuarterMillennium.pdf
 % ultimate ellipse perimeter calculation formula
+% version 6July2026
+% tested with..
+% ?- eper144(6.0,10.0,Res).
+% Res = 51.05399772679621.
+% compare with https://www.mathsisfun.com/geometry/ellipse-perimeter.html
 nthloop144(Qn,Rn,Sn,Res):-
        Pn is 2.0*pi*(Qn-Rn),
        Snn is sqrt((Sn+(1.0/Sn))/2.0),
        Qnn is 2.0*Snn*Qn,
        Rnn is (Qn+Rn)/Snn,
        Pnn is 2.0*pi*(Qnn-Rnn),
-       ( abs((Pn-Pnn)) < 1.0e-10 
-	-> Res is (Pn+Pnn)/2.0,! 
+       ( abs(Pn-Pnn) < 1.0e-10 
+	-> Res is Pnn,! 
 	; 
 	nthloop144(Qnn,Rnn,Snn,Res) ).
 %	
