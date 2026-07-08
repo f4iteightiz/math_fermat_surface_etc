@@ -28,6 +28,10 @@
    https://en.wikipedia.org/wiki/Mean_value_theorem_(divided_differences)
    https://en.wikipedia.org/wiki/Divided_differences
 
+   changes..
+   06 July 2026 Upload github
+   08 July 2026 eper144 simplified
+
    next.. 
    
    change all to pom(X,Y,P,Res,Action) :-
@@ -1487,14 +1491,14 @@ nthloop144(Qn,Rn,Sn,Res):-
 eper144(A,B,Res) :- 
 	A = 0.0 -> Res is 4.0*B;
 	B = 0.0 -> Res is 4.0*A;
-	( A < B -> Beta is A/B ; Beta is B/A ),
 % initiate the values
-	S0 is sqrt(Beta),
+	Beta is A/B, S0 is sqrt(Beta),
 	Q0 is S0,
 	R0 is 0.0,
 % start the iterations
 	nthloop144(Q0,R0,S0,Res1),
-	( A < B -> Res is B*Res1 ; Res is A*Res1 ).
+% would be A*Res1 if Beta would be B/A before
+	Res is B*Res1.
 %
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    application 2
